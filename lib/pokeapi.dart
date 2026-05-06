@@ -3,29 +3,15 @@ import "package:flutter/services.dart" show rootBundle;
 import "dart:convert";
 
 class PokeAPI {
-  static Future<List<Pokemon>> get getPokemons async {
-    final String pokemonJSON = await rootBundle.loadString(
-      "assets/json/pokemons.json",
-    );
+  static Future<String> get lerJSON async {
+    return await rootBundle.loadString("assets/json/pokemons.json");
+  }
 
-    final pokemonMap = jsonDecode(pokemonJSON);
+  /*
+  static List<Pokemon> get getPokemons async {
+    final pokemonMap = jsonDecode(PokeAPI.lerJSON);
 
     return pokemonMap;
-
-    /*
-    Pokemon pokemonObj = Pokemon(
-      pokemonMap["id"],
-      pokemonMap["name"],
-      pokemonMap["genera"],
-      pokemonMap["types"],
-      pokemonMap["height"],
-      pokemonMap["weight"],
-      pokemonMap["flavor_text"],
-      pokemonMap["sprites"]["front_default"],
-      pokemonMap["cries"]["latest"],
-    );
-
-    return pokemonObj;
-    */
   }
+  */
 }

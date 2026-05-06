@@ -14,57 +14,78 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Pokédex',
+      theme: ThemeData(
+        colorScheme: .fromSeed(
+          seedColor: Color.fromARGB(255, 255, 111, 97),
+          dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
+        ),
+      ),
+      home: const Pokedex(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+// Construção da tela inicial (home) - Pokédex (Lista de Pokémons)
+class Pokedex extends StatelessWidget {
+  const Pokedex({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  final _pokemons = PokeAPI.getPokemons;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final String title = "Pokédex";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: Row(
           children: [
-            FutureBuilder(future: _pokemons, builder: (context, snapshot)))
-            Text('Teste do Charmeleon: $_pokemonsResults'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            Icon(Icons.catching_pokemon, color: Colors.white),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(title, style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: .spaceEvenly,
+            children: [
+              Card(
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
+                    ),
+                    Text("Charmeleon"),
+                  ],
+                ),
+              ),
+              Card(
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/725.png",
+                    ),
+                    Text("Litten"),
+                  ],
+                ),
+              ),
+              Card(
+                child: Column(
+                  children: [
+                    Image.network(
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/999.png",
+                    ),
+                    Text("Gimmighoul"),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -33,17 +33,19 @@ class Pokemon {
     this.som = som;
   }
 
-  static Pokemon fromJson(json) => Pokemon(
-    json["id"],
-    json["name"],
-    json["genera"],
-    json["types"],
-    json["height"],
-    json["weight"],
-    json["flavor_text"],
-    json["sprites"]["front_default"],
-    json["cries"]["latest"],
-  );
+  factory Pokemon.fromJson(Map<String, dynamic> json) {
+    return Pokemon(
+      json["id"],
+      json["name"],
+      json["genera"],
+      json["types"],
+      json["height"],
+      json["weight"],
+      json["flavor_text"],
+      json["sprites"]["front_default"],
+      json["cries"]["latest"],
+    );
+  }
 
   set id(int id) {
     // Formata o ID para o padrão de apresentação. Ex: Bulbasaur -> #0001
