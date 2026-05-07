@@ -34,6 +34,8 @@ class Pokedex extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pokemons = PokeAPI.lerJSON();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -44,48 +46,66 @@ class Pokedex extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: Text(title, style: TextStyle(color: Colors.white)),
             ),
+            Icon(Icons.settings, color: Colors.white),
           ],
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: .spaceEvenly,
-            children: [
-              Card(
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
-                    ),
-                    Text("Charmeleon"),
-                  ],
-                ),
+      body: Container(
+        alignment: .topCenter,
+        child: Wrap(
+          alignment: .center,
+          children: [
+            Card(
+              child: Column(
+                children: [
+                  Image.network(
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
+                    width: 180,
+                    height: 180,
+                    fit: BoxFit.cover,
+                  ),
+                  Text(
+                    "#0005",
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  Text("Charmeleon", style: TextStyle(fontSize: 20)),
+                ],
               ),
-              Card(
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/725.png",
-                    ),
-                    Text("Litten"),
-                  ],
-                ),
+            ),
+            Card(
+              child: Column(
+                children: [
+                  Image.network(
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/725.png",
+                  ),
+                  Text(
+                    "#0725",
+                    style: TextStyle(fontSize: 5, color: Colors.grey),
+                  ),
+                  Text("Litten", style: TextStyle(fontWeight: FontWeight.w500)),
+                ],
               ),
-              Card(
-                child: Column(
-                  children: [
-                    Image.network(
-                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/999.png",
-                    ),
-                    Text("Gimmighoul"),
-                  ],
-                ),
+            ),
+            Card(
+              child: Column(
+                children: [
+                  Image.network(
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/999.png",
+                  ),
+                  Text(
+                    "#0999",
+                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                  ),
+                  Text(
+                    "Gimmighoul",
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

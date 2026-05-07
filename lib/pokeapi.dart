@@ -3,8 +3,8 @@ import "package:flutter/services.dart" show rootBundle;
 import "dart:convert";
 
 class PokeAPI {
-  static Future<String> get lerJSON async {
-    return await rootBundle.loadString("assets/json/pokemons.json");
+  static Future<String> lerJSON() async {
+    return rootBundle.loadString("assets/json/pokemons.json");
   }
 
   /*
