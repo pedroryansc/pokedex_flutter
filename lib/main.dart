@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "pokeapi.dart";
+import "pokemon.dart";
 
 void main() {
   runApp(const MyApp());
@@ -47,75 +48,48 @@ class Pokedex extends StatelessWidget {
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: Container(
-        alignment: .topCenter,
-        child: Wrap(
-          alignment: .center,
-          children: [
-            Card(
-              child: Column(
-                children: [
-                  Image.network(
-                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
-                    width: 180,
-                    height: 180,
-                    fit: BoxFit.cover,
-                  ),
-                  Text(
-                    "#0005",
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  Text("Charmeleon", style: TextStyle(fontSize: 20)),
-                ],
-              ),
-            ),
-            Card(
-              child: Column(
-                children: [
-                  Image.network(
-                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/725.png",
-                  ),
-                  Text(
-                    "#0725",
-                    style: TextStyle(fontSize: 5, color: Colors.grey),
-                  ),
-                  Text("Litten", style: TextStyle(fontWeight: FontWeight.w500)),
-                ],
-              ),
-            ),
-            Card(
-              child: Column(
-                children: [
-                  Image.network(
-                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/999.png",
-                  ),
-                  Text(
-                    "#0999",
-                    style: TextStyle(fontSize: 15, color: Colors.grey),
-                  ),
-                  Text(
-                    "Gimmighoul",
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-            ),
-            FutureBuilder(
-              future: PokeAPI().getPokemons(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(color: Colors.white);
-                } else if (snapshot.hasError) {
-                  return Text(
-                    "Erro ao carregar os Pokémons: ${snapshot.error}",
+      body: FutureBuilder(
+        future: PokeAPI().getPokemons(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            );
+          } else if (snapshot.hasError) {
+            return Text("Erro ao carregar os Pokémons: ${snapshot.error}");
+          } else if (snapshot.hasData) {
+            List<Pokemon> pokemons = snapshot.data!;
+
+            return Container(
+              alignment: .topCenter,
+              child: Wrap(
+                alignment: .spaceEvenly,
+                children: pokemons.map((pokemon) {
+                  // Futuramente, adicionar um SingleChildScrollView ou ListView.builder
+                  return Card(
+                    child: Column(
+                      children: [
+                        Image.network(
+                          pokemon.sprite,
+                          width: 180,
+                          height: 180,
+                          fit: BoxFit.cover,
+                        ),
+                        Text(
+                          pokemon.id,
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                        Text(pokemon.nome, style: TextStyle(fontSize: 20)),
+                      ],
+                    ),
                   );
-                } else {
-                  return Text("Saída do método getPokemons: ${snapshot.data}");
-                }
-              },
-            ),
-          ],
-        ),
+                }).toList(),
+              ),
+            );
+          } else {
+            return Text("Nenhum Pokémon foi encontrado.");
+          }
+        },
       ),
     );
   }
