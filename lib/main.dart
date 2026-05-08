@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import "pokemon.dart";
 import "pokeapi.dart";
 
 void main() {
@@ -34,8 +32,6 @@ class Pokedex extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pokemons = PokeAPI.lerJSON();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -103,6 +99,20 @@ class Pokedex extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            FutureBuilder(
+              future: PokeAPI().getPokemons(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(color: Colors.white);
+                } else if (snapshot.hasError) {
+                  return Text(
+                    "Erro ao carregar os Pokémons: ${snapshot.error}",
+                  );
+                } else {
+                  return Text("Saída do método getPokemons: ${snapshot.data}");
+                }
+              },
             ),
           ],
         ),

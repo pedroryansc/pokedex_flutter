@@ -30,6 +30,8 @@
                     "url": "https://pokeapi.co/api/v2/pokemon-form/5/"
                 }
             ],
+            "flavor_text": "When it swings\nits burning tail,\nit elevates the\ftemperature to\nunbearably high\nlevels.",
+            "genus": "Flame Pokémon",
             "game_indices": [
                 {
                     "game_index": 178,
@@ -14166,6 +14168,8 @@
                     "url": "https://pokeapi.co/api/v2/pokemon-form/62/"
                 }
             ],
+            "flavor_text": "An adept swimmer\nat both the front\ncrawl and breast\fstroke. Easily\novertakes the best\nhuman swimmers.",
+            "genus": "Tadpole Pokémon",
             "game_indices": [
                 {
                     "game_index": 111,
@@ -29266,6 +29270,8 @@
                     "url": "https://pokeapi.co/api/v2/pokemon-form/725/"
                 }
             ],
+            "flavor_text": "While grooming itself, it builds up fur inside its\nstomach. It sets the fur alight and spews fiery\nattacks, which change based on how it coughs.",
+            "genus": "Fire Cat Pokémon",
             "game_indices": [],
             "height": 4,
             "held_items": [],

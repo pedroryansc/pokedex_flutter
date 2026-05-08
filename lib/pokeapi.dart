@@ -3,15 +3,17 @@ import "package:flutter/services.dart" show rootBundle;
 import "dart:convert";
 
 class PokeAPI {
-  static Future<String> lerJSON() async {
-    return rootBundle.loadString("assets/json/pokemons.json");
-  }
+  Future<List<Pokemon>> getPokemons() async {
+    final json = await rootBundle.loadString("assets/json/pokemons.json");
 
-  /*
-  static List<Pokemon> get getPokemons async {
-    final pokemonMap = jsonDecode(PokeAPI.lerJSON);
+    final pokemonsMap = jsonDecode(json) as Map<String, dynamic>;
 
-    return pokemonMap;
+    List<Pokemon> pokemons = [];
+    for (Map<String, dynamic> pokemonMap in pokemonsMap["results"]) {
+      final pokemonObj = Pokemon.fromJson(pokemonMap);
+      pokemons.add(pokemonObj);
+    }
+
+    return pokemons;
   }
-  */
 }

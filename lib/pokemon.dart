@@ -11,40 +11,16 @@ class Pokemon {
   String _sprite = "";
   String _som = "";
 
-  Pokemon(
-    int id,
-    String nome,
-    String categoria,
-    List<String> tipos,
-    double altura,
-    double peso,
-    String descricao,
-    String sprite,
-    String som,
-  ) {
-    this.id = id;
-    this.nome = nome;
-    this.categoria = categoria;
-    this.tipos = tipos;
-    this.altura = altura;
-    this.peso = peso;
-    this.descricao = descricao;
-    this.sprite = sprite;
-    this.som = som;
-  }
-
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
-    return Pokemon(
-      json["id"],
-      json["name"],
-      json["genera"],
-      json["types"],
-      json["height"],
-      json["weight"],
-      json["flavor_text"],
-      json["sprites"]["front_default"],
-      json["cries"]["latest"],
-    );
+  Pokemon.fromJson(Map<String, dynamic> jsonMap) {
+    id = jsonMap["id"] as int;
+    nome = jsonMap["name"] as String;
+    categoria = jsonMap["genus"] as String;
+    tipos = jsonMap["types"] as List<dynamic>;
+    altura = jsonMap["height"] as double;
+    peso = jsonMap["weight"] as double;
+    descricao = jsonMap["flavor_text"] as String;
+    sprite = jsonMap["sprites"]["front_default"] as String;
+    som = jsonMap["cries"]["latest"] as String;
   }
 
   set id(int id) {
@@ -65,7 +41,15 @@ class Pokemon {
     _categoria = categoria;
   }
 
-  set tipos(List<String> tipos) {
+  set tipos(List<dynamic> tiposMap) {
+    List<String> tipos = [];
+
+    for (Map<String, dynamic> tipoMap in tiposMap) {
+      String tipo = tipoMap["type"]["name"];
+      tipo = tipo[0].toUpperCase() + tipo.substring(1);
+      tipos.add(tipo);
+    }
+
     _tipos = tipos;
   }
 
