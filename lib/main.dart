@@ -64,6 +64,7 @@ class Pokedex extends StatelessWidget {
               alignment: .topCenter,
               child: Wrap(
                 alignment: .spaceEvenly,
+                spacing: 2,
                 children: pokemons.map((pokemon) {
                   // Futuramente, adicionar um SingleChildScrollView ou ListView.builder
                   return Card(
