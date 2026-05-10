@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "pokeapi.dart";
 import "pokemon.dart";
+import "package:intl/intl.dart";
 
 void main() {
   runApp(const MyApp());
@@ -41,56 +42,80 @@ class Pokedex extends StatelessWidget {
             Icon(Icons.catching_pokemon, color: Colors.white),
             Padding(
               padding: EdgeInsets.all(10),
-              child: Text(title, style: TextStyle(color: Colors.white)),
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 25, color: Colors.white),
+              ),
             ),
-            Icon(Icons.settings, color: Colors.white),
           ],
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.settings, color: Colors.white),
+            ),
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Container(color: Colors.white, height: 1),
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: FutureBuilder(
-        future: PokeAPI().getPokemons(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(color: Colors.white),
-            );
-          } else if (snapshot.hasError) {
-            return Text("Erro ao carregar os Pokémons: ${snapshot.error}");
-          } else if (snapshot.hasData) {
-            List<Pokemon> pokemons = snapshot.data!;
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(10),
+        child: FutureBuilder(
+          future: PokeAPI().getPokemons(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              );
+            } else if (snapshot.hasError) {
+              return Text("Erro ao carregar os Pokémons: ${snapshot.error}");
+            } else if (snapshot.hasData) {
+              List<Pokemon> pokemons = snapshot.data!;
 
-            return Container(
-              alignment: .topCenter,
-              child: Wrap(
-                alignment: .spaceEvenly,
-                spacing: 2,
-                children: pokemons.map((pokemon) {
-                  // Futuramente, adicionar um SingleChildScrollView ou ListView.builder
-                  return Card(
-                    child: Column(
-                      children: [
-                        Image.network(
-                          pokemon.sprite,
-                          width: 180,
-                          height: 180,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(
-                          pokemon.id,
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
-                        Text(pokemon.nome, style: TextStyle(fontSize: 20)),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-            );
-          } else {
-            return Text("Nenhum Pokémon foi encontrado.");
-          }
-        },
+              return Container(
+                alignment: .topCenter,
+                child: Wrap(
+                  alignment: .spaceEvenly,
+                  spacing: 2,
+                  children: pokemons.map((pokemon) {
+                    return Card(
+                      child: Column(
+                        children: [
+                          Image.network(
+                            pokemon.sprite,
+                            width: 180,
+                            height: 180,
+                            fit: BoxFit.cover,
+                          ),
+                          Text(
+                            // Formata o ID para o padrão de apresentação. Ex: Bulbasaur -> #0001
+                            NumberFormat("'#'0000").format(pokemon.id),
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              pokemon.nome,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              );
+            } else {
+              return Text("Nenhum Pokémon foi encontrado.");
+            }
+          },
+        ),
       ),
     );
   }

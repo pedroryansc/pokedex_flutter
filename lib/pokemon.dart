@@ -1,7 +1,5 @@
-import "package:intl/intl.dart";
-
 class Pokemon {
-  String _id = "";
+  int _id = 0;
   String _nome = "";
   String _categoria = "";
   List<String> _tipos = [];
@@ -24,10 +22,7 @@ class Pokemon {
   }
 
   set id(int id) {
-    // Formata o ID para o padrão de apresentação. Ex: Bulbasaur -> #0001
-    var formatter = NumberFormat("'#'0000");
-    String idFormatado = formatter.format(id);
-    _id = idFormatado;
+    _id = id;
   }
 
   set nome(String nome) {
@@ -75,7 +70,7 @@ class Pokemon {
     _som = som;
   }
 
-  String get id {
+  int get id {
     return _id;
   }
 
