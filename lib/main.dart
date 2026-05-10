@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import "package:intl/intl.dart";
+
 import "pokeapi.dart";
 import "pokemon.dart";
-import "package:intl/intl.dart";
+
+import "configurations.dart";
 
 void main() {
   runApp(const MyApp());
@@ -16,12 +19,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pokédex',
       theme: ThemeData(
+        /*
         colorScheme: .fromSeed(
           seedColor: Color.fromARGB(255, 255, 111, 97),
           dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
         ),
+        */
+        scaffoldBackgroundColor: Color.fromARGB(255, 255, 111, 97),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 255, 111, 97),
+          iconTheme: IconThemeData(color: Colors.white),
+          titleTextStyle: TextStyle(fontSize: 30, color: Colors.white),
+        ),
       ),
       home: const Pokedex(),
+      routes: {"/configurations": (context) => Configurations()},
     );
   }
 }
@@ -36,25 +48,20 @@ class Pokedex extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Row(
           children: [
-            Icon(Icons.catching_pokemon, color: Colors.white),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 25, color: Colors.white),
-              ),
-            ),
+            Icon(Icons.catching_pokemon),
+            Padding(padding: EdgeInsets.all(10), child: Text(title)),
           ],
         ),
         actions: [
           Padding(
             padding: EdgeInsets.all(10),
             child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.settings, color: Colors.white),
+              onPressed: () {
+                Navigator.pushNamed(context, "/configurations");
+              },
+              icon: Icon(Icons.settings),
             ),
           ),
         ],
@@ -63,7 +70,6 @@ class Pokedex extends StatelessWidget {
           child: Container(color: Colors.white, height: 1),
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(10),
         child: FutureBuilder(
@@ -88,6 +94,11 @@ class Pokedex extends StatelessWidget {
                       child: Column(
                         children: [
                           Image.network(
+                            /*
+                            pokemon.sprite == "2"
+                                ? pokemon.sprite
+                                : pokemon.nome,
+                            */
                             pokemon.sprite,
                             width: 180,
                             height: 180,
