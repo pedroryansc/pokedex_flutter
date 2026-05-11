@@ -1,17 +1,41 @@
 import 'package:flutter/material.dart';
 import "package:intl/intl.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 import "pokeapi.dart";
 import "pokemon.dart";
 
 // Construção da tela inicial (home) - Pokédex (Lista de Pokémons)
-class Pokedex extends StatelessWidget {
+class Pokedex extends StatefulWidget {
   const Pokedex({super.key});
 
+  @override
+  State<Pokedex> createState() => _PokedexState();
+}
+
+class _PokedexState extends State<Pokedex> {
   final String title = "Pokédex";
+
+  int? _opcaoSprite;
+
+  @override
+  void initState() {
+    super.initState();
+    _getOpcaoSprite();
+  }
+
+  Future<void> _getOpcaoSprite() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _opcaoSprite = prefs.getInt("opcaoSprite") ?? 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final String tipoSprite = _opcaoSprite == 1 ? "pixel_art" : "arte_oficial";
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -24,8 +48,9 @@ class Pokedex extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(10),
             child: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/configurations");
+              onPressed: () async {
+                await Navigator.pushNamed(context, "/configurations");
+                _getOpcaoSprite();
               },
               icon: Icon(Icons.settings),
             ),
@@ -68,12 +93,14 @@ class Pokedex extends StatelessWidget {
                         },
                         child: Column(
                           children: [
-                            Image.network(
-                              pokemon.sprites["arte_oficial"]!,
-                              width: 180,
-                              height: 180,
-                              fit: BoxFit.cover,
-                            ),
+                            pokemon.sprites[tipoSprite!] != null
+                                ? Image.network(
+                                    pokemon.sprites[tipoSprite]!,
+                                    width: 180,
+                                    height: 180,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Icon(Icons.image_not_supported),
                             Text(
                               // Formata o ID para o padrão de apresentação. Ex: Bulbasaur -> #0001
                               NumberFormat("'#'0000").format(pokemon.id),

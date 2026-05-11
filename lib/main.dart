@@ -17,17 +17,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pokédex',
       theme: ThemeData(
-        /*
-        colorScheme: .fromSeed(
-          seedColor: Color.fromARGB(255, 255, 111, 97),
-          dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
-        ),
-        */
         scaffoldBackgroundColor: Color.fromARGB(255, 255, 111, 97),
         appBarTheme: AppBarTheme(
           backgroundColor: Color.fromARGB(255, 255, 111, 97),
           iconTheme: IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(fontSize: 30, color: Colors.white),
+        ),
+        radioTheme: RadioThemeData(
+          fillColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return Colors.lightGreenAccent;
+            } else {
+              return Colors.white;
+            }
+          }),
+          overlayColor: WidgetStateProperty.all(
+            Colors.lightGreenAccent.withAlpha(50),
+          ),
         ),
       ),
       home: const Pokedex(),

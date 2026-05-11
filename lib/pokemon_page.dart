@@ -13,17 +13,6 @@ class PokemonPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/configurations");
-              },
-              icon: Icon(Icons.settings),
-            ),
-          ),
-        ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
           child: Container(color: Colors.white, height: 1),
@@ -44,20 +33,29 @@ class PokemonPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: .center,
                       children: [
+                        pokemon.sprites["pixel_art"] != null
+                            ? Image.network(
+                                pokemon.sprites["pixel_art"]!,
+                                scale: 1.3,
+                              )
+                            : Icon(Icons.image_not_supported),
                         Text(
-                          "${NumberFormat("'#'0000").format(pokemon.id)} | ${pokemon.nome} ",
+                          " ${pokemon.nome} | ${NumberFormat("'#'0000").format(pokemon.id)} ",
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Icon(Icons.catching_pokemon, size: 30),
                       ],
                     ),
                   ),
                 ),
               ),
-              Card(child: Image.network(pokemon.sprites["arte_oficial"]!)),
+              Card(
+                child: pokemon.sprites["arte_oficial"] != null
+                    ? Image.network(pokemon.sprites["arte_oficial"]!)
+                    : Icon(Icons.image_not_supported),
+              ),
               Card(
                 child: Container(
                   padding: EdgeInsets.all(12),

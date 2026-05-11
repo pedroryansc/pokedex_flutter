@@ -9,7 +9,21 @@ class Configurations extends StatefulWidget {
 }
 
 class _ConfigurationsState extends State<Configurations> {
-  int? _radioValue = 1;
+  int? _radioValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _getOpcaoSprite();
+  }
+
+  Future<void> _getOpcaoSprite() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _radioValue = prefs.getInt("opcaoSprite") ?? 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +80,7 @@ class _ConfigurationsState extends State<Configurations> {
                           color: Colors.white,
                         ),
                       ),
-                      Radio(
-                        value: 1,
-                        activeColor: Colors.lightGreenAccent,
-                        overlayColor: WidgetStateProperty.all(
-                          Colors.lightGreenAccent.withAlpha(50),
-                        ),
-                      ),
+                      Radio(value: 1),
                     ],
                   ),
                   Row(
@@ -86,13 +94,7 @@ class _ConfigurationsState extends State<Configurations> {
                           color: Colors.white,
                         ),
                       ),
-                      Radio(
-                        value: 2,
-                        activeColor: Colors.lightGreenAccent,
-                        overlayColor: WidgetStateProperty.all(
-                          Colors.lightGreenAccent.withAlpha(50),
-                        ),
-                      ),
+                      Radio(value: 2),
                     ],
                   ),
                 ],
