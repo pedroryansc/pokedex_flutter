@@ -93,7 +93,7 @@ class _PokedexState extends State<Pokedex> {
                         },
                         child: Column(
                           children: [
-                            pokemon.sprites[tipoSprite!] != null
+                            pokemon.sprites[tipoSprite] != null
                                 ? Image.network(
                                     pokemon.sprites[tipoSprite]!,
                                     width: 180,
