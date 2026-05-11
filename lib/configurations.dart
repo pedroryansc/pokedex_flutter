@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Configurations extends StatefulWidget {
   const Configurations({super.key});
@@ -41,13 +42,19 @@ class _ConfigurationsState extends State<Configurations> {
             ),
             RadioGroup(
               groupValue: _radioValue,
-              onChanged: (int? value) {
+              onChanged: (int? value) async {
+                final SharedPreferences prefs =
+                    await SharedPreferences.getInstance();
+
+                prefs.setInt("opcaoSprite", value!);
+
                 setState(() {
                   _radioValue = value;
                 });
               },
               child: Column(
                 children: [
+                  // Futuramente, apresentar as opções de Radio como um ListView.builder
                   Row(
                     mainAxisAlignment: .spaceBetween,
                     children: [

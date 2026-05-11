@@ -6,7 +6,7 @@ class Pokemon {
   double _altura = 0;
   double _peso = 0;
   String _descricao = "";
-  String _sprite = "";
+  Map<String, String> _sprites = {};
   String _som = "";
 
   Pokemon.fromJson(Map<String, dynamic> jsonMap) {
@@ -17,7 +17,7 @@ class Pokemon {
     altura = jsonMap["height"] as double;
     peso = jsonMap["weight"] as double;
     descricao = jsonMap["flavor_text"] as String;
-    sprite = jsonMap["sprites"]["front_default"] as String;
+    sprites = jsonMap["sprites"] as Map<String, dynamic>;
     som = jsonMap["cries"]["latest"] as String;
   }
 
@@ -37,6 +37,7 @@ class Pokemon {
   }
 
   set tipos(List<dynamic> tiposMap) {
+    // Torna maiúscula a primeira letra do tipo e o adiciona a uma lista
     List<String> tipos = [];
 
     for (Map<String, dynamic> tipoMap in tiposMap) {
@@ -58,12 +59,25 @@ class Pokemon {
     _peso = peso / 10;
   }
 
-  set descricao(String descricao) {
-    _descricao = descricao;
+  set descricao(String descricaoOriginal) {
+    // Remove os caracteres de quebra de linha e avanço de página
+    String descricaoFormatada = descricaoOriginal.replaceAll(
+      RegExp(r"[\n\f]"),
+      " ",
+    );
+
+    _descricao = descricaoFormatada;
   }
 
-  set sprite(String sprite) {
-    _sprite = sprite;
+  set sprites(Map<String, dynamic> spritesTodos) {
+    // Adiciona alguns sprites a um Map
+    Map<String, String> sprites = {
+      "pixel_art": spritesTodos["front_default"],
+      "arte_oficial":
+          spritesTodos["other"]["official-artwork"]["front_default"],
+    };
+
+    _sprites = sprites;
   }
 
   set som(String som) {
@@ -98,8 +112,8 @@ class Pokemon {
     return _descricao;
   }
 
-  String get sprite {
-    return _sprite;
+  Map<String, String> get sprites {
+    return _sprites;
   }
 
   String get som {
@@ -108,6 +122,6 @@ class Pokemon {
 
   @override
   String toString() {
-    return "$id | $nome - $categoria | Tipo(s): $tipos | Altura: $altura m | Peso: $peso kg | $descricao | Sprite: $sprite | Som: $som";
+    return "$id | $nome - $categoria | Tipo(s): $tipos | Altura: $altura m | Peso: $peso kg | $descricao | Sprite: $sprites | Som: $som";
   }
 }
